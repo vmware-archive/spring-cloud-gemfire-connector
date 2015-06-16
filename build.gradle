@@ -1,0 +1,187 @@
+/*
+ * Copyright 2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *			http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+description = 'Spring Cloud Connectors for GemFire support on Cloud Foundry'
+
+buildscript {
+	repositories {
+		maven { url 'https://repo.spring.io/plugins-release' }
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+		classpath 'org.springframework.build.gradle:spring-io-plugin:0.0.3.RELEASE'
+	}
+
+	ext {
+		springBootVersion = "1.2.3.RELEASE"
+		springDataGemfireVersion = "1.6.0.M1"
+		springCloudConnectorsVersion = "1.2.0.RC1"
+		jacksonVersion = "2.3.3"
+		junitVersion = "4.11"
+		mockitoVersion = "1.9.5"
+	}
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply from: "${rootProject.projectDir}/publish-maven.gradle"
+	apply plugin: 'eclipse'
+
+	apply plugin: 'propdeps'
+	apply plugin: 'propdeps-maven'
+	apply plugin: 'propdeps-idea'
+	apply plugin: 'propdeps-eclipse'
+
+	compileJava {
+		sourceCompatibility=1.6
+		targetCompatibility=1.6
+	}
+	compileTestJava {
+		sourceCompatibility=1.8
+		targetCompatibility=1.8
+	}
+
+	if (project.hasProperty('platformVersion')) {
+		apply plugin: 'spring-io'
+
+		// necessary to resolve the Spring IO versions (which may include snapshots)
+		repositories {
+			maven { url "https://repo.spring.io/libs-snapshot" }
+		}
+
+		dependencies {
+			springIoVersions "io.spring.platform:platform-versions:${platformVersion}@properties"
+		}
+	}
+
+	dependencies {
+		testCompile("junit:junit:$junitVersion")
+		testCompile("org.mockito:mockito-core:$mockitoVersion")
+	}
+
+	repositories {
+		maven { url "https://repo.spring.io/libs-milestone" }
+		mavenCentral()
+	}
+
+	javadoc {
+		options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+		options.author = true
+		options.header = project.name
+	}
+
+	task packageSources(type: Jar) {
+		classifier = 'sources'
+		from sourceSets.main.allSource
+	}
+
+	task javadocJar(type: Jar) {
+		classifier = "javadoc"
+		from javadoc
+	}
+
+	ext {
+		javadocLinks = [
+				'http://docs.oracle.com/javase/7/docs/api/',
+				'http://docs.oracle.com/javaee/6/api/',
+				'http://docs.spring.io/spring/docs/current/javadoc-api/',
+		] as String[]
+	}
+
+	task api(type: Javadoc) {
+		group = "Documentation"
+		description = "Generates aggregated Javadoc API documentation."
+		title = "${rootProject.description} ${version} API"
+		options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+		options.author = true
+		options.header = rootProject.description
+		options.links(project.ext.javadocLinks)
+
+		source subprojects.collect { project ->
+			project.sourceSets.main.allJava
+		}
+
+		classpath = files(subprojects.collect { project ->
+			project.sourceSets.main.compileClasspath
+		})
+
+		maxMemory = "1024m"
+		destinationDir = new File(buildDir, "api")
+	}
+
+	task docsZip(type: Zip) {
+		group = 'Distribution'
+		classifier = 'docs'
+		description = "Builds -${classifier} archive containing api and reference " +
+				"for deployment at docs.spring.io/spring-cloud/docs."
+
+		from(api) {
+			into 'api'
+		}
+	}
+
+	artifacts {
+		archives packageSources
+		archives javadocJar
+	}
+
+	task dist(dependsOn: assemble) {
+		group = 'Distribution'
+		description = 'Builds -dist and -docs distribution archives.'
+	}
+}
+
+project(':spring-cloud-gemfire-connector-core') {
+	archivesBaseName = "spring-cloud-gemfire-connector-core"
+
+	dependencies {
+		compile("org.springframework.cloud:spring-cloud-core:$springCloudConnectorsVersion")
+	}
+}
+
+project(':spring-cloud-gemfire-cloudfoundry-connector') {
+	archivesBaseName = "spring-cloud-gemfire-cloudfoundry-connector"
+
+	dependencies {
+		compile project(':spring-cloud-gemfire-connector-core')
+		compile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion")
+		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion")
+		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion:tests")
+		testCompile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+		testCompile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+	}
+}
+
+project(':spring-cloud-gemfire-spring-connector') {
+	archivesBaseName = "spring-cloud-gemfire-spring-connector"
+
+	dependencies {
+		compile project(':spring-cloud-gemfire-connector-core')
+		compile("org.springframework.cloud:spring-cloud-spring-service-connector:$springCloudConnectorsVersion")
+		optional("org.springframework.data:spring-data-gemfire:$springDataGemfireVersion")
+		testCompile("org.springframework.boot:spring-boot:$springBootVersion")
+		testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+		testCompile("org.springframework.cloud:spring-cloud-core:$springCloudConnectorsVersion:tests")
+		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion")
+		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion:tests")
+	}
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.4'
+}

@@ -1,0 +1,1 @@
+include "spring-cloud-gemfire-cloudfoundry-connector", "spring-cloud-gemfire-spring-connector", "spring-cloud-gemfire-connector-core"
