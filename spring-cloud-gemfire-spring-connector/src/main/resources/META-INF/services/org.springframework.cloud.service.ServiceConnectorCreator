@@ -1,2 +1,1 @@
-io.pivotal.spring.cloud.service.gemfire.GemfireXDDataSourceCreator
 io.pivotal.spring.cloud.service.gemfire.GemfireClientCacheCreator
