@@ -23,12 +23,17 @@ public class GemfireServiceInfo extends BaseServiceInfo {
 	private URI[] locators;
 	private final String username;
 	private final String password;
+	private String restURL;
 
 	public GemfireServiceInfo(String id, List<String> locators) {
 		this(id, locators, null, null);
 	}
 
 	public GemfireServiceInfo(String id, List<String> locators, String username, String password) {
+		this(id, locators, username, password, null);
+	}
+
+	public GemfireServiceInfo(String id, List<String> locators, String username, String password, String restURL) {
 		super(id);
 
 		ArrayList<URI> uris = new ArrayList<URI>(locators.size());
@@ -39,6 +44,7 @@ public class GemfireServiceInfo extends BaseServiceInfo {
 
 		this.username = username;
 		this.password = password;
+		this.restURL = restURL;
 	}
 
 	private URI parseLocator(String locator) throws IllegalArgumentException {
@@ -67,5 +73,9 @@ public class GemfireServiceInfo extends BaseServiceInfo {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public String getRestURL() {
+		return restURL;
 	}
 }

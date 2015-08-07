@@ -22,6 +22,10 @@ public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnector
 
 		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
 		Assert.assertNotNull(info);
+		Assert.assertNotNull(info.getLocators());
+		Assert.assertNotNull(info.getUsername());
+		Assert.assertNotNull(info.getPassword());
+		Assert.assertNull(info.getRestURL());
 	}
 
 	@Test
@@ -50,6 +54,15 @@ public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnector
 		Map<String, Object> serviceData = getServiceData(services, "user-provided");
 		boolean accepts = creator.accept(serviceData);
 		Assert.assertEquals(true, accepts);
+	}
+
+	@Test
+	public void testRestUrl() throws Exception {
+		GemfireServiceInfoCreator creator = new GemfireServiceInfoCreator();
+		Map services = readServiceData("test-gemfire-rest-service.json");
+		Map<String, Object> serviceData = getServiceData(services, "p-gemfire");
+		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
+		Assert.assertEquals("gemfire-si.foo.bar.com", info.getRestURL());
 	}
 
 	private Map readServiceData(String resource) throws java.io.IOException {
