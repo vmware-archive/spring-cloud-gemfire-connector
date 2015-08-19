@@ -29,8 +29,8 @@ buildscript {
 
 	ext {
 		springBootVersion = "1.2.3.RELEASE"
-		springDataGemfireVersion = "1.6.0.M1"
-		springCloudConnectorsVersion = "1.2.0.RC1"
+		springDataGemfireVersion = "1.6.1.RELEASE"
+		springCloudConnectorsVersion = "1.2.0.RELEASE"
 		jacksonVersion = "2.3.3"
 		junitVersion = "4.11"
 		mockitoVersion = "1.9.5"
