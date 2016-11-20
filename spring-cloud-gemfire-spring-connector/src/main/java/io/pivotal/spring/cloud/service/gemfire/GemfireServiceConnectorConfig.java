@@ -1,14 +1,12 @@
 package io.pivotal.spring.cloud.service.gemfire;
 
+import org.apache.geode.pdx.PdxSerializer;
 import org.springframework.cloud.service.ServiceConnectorConfig;
-
-import com.gemstone.gemfire.pdx.PdxSerializer;
 /**
- * 
- * @author Vinicius Carvalho
- * 
  * Enables specific configuration of the Gemfire ClientCache Factory
  *
+ * @author Vinicius Carvalho
+ * 
  */
 public class GemfireServiceConnectorConfig implements ServiceConnectorConfig {
 

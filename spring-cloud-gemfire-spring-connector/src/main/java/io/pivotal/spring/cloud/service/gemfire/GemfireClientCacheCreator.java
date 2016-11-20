@@ -4,15 +4,14 @@ import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
+import io.pivotal.spring.cloud.service.common.GemfireServiceInfo;
+import org.apache.geode.cache.client.ClientCache;
+import org.apache.geode.cache.client.ClientCacheFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
-import io.pivotal.spring.cloud.service.common.GemfireServiceInfo;
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
-
-import com.gemstone.gemfire.cache.client.ClientCache;
-import com.gemstone.gemfire.cache.client.ClientCacheFactory;
 
 public class GemfireClientCacheCreator  extends AbstractServiceConnectorCreator<ClientCache, GemfireServiceInfo>{
 

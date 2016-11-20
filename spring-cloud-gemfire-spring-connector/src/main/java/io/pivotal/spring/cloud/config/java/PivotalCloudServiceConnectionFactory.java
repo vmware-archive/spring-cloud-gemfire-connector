@@ -1,8 +1,7 @@
 package io.pivotal.spring.cloud.config.java;
 
-import com.gemstone.gemfire.cache.client.ClientCache;
 import io.pivotal.spring.cloud.service.gemfire.GemfireServiceConnectorConfig;
-
+import org.apache.geode.cache.client.ClientCache;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudException;
 import org.springframework.cloud.config.java.CloudServiceConnectionFactory;
