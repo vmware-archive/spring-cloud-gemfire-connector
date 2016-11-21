@@ -30,6 +30,6 @@ abstract public class StubCloudConnectorTest {
 	}
 
 	protected GemfireServiceInfo createGemfireService(String id) {
-		return new GemfireServiceInfo(id, Collections.singletonList("10.0.0.1[1044]"));
+		return new GemfireServiceInfo.Builder(id, Collections.singletonList("10.0.0.1[1044]")).build();
 	}
 }

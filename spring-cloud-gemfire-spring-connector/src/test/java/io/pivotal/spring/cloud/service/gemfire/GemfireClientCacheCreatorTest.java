@@ -33,7 +33,7 @@ public class GemfireClientCacheCreatorTest {
 	public void setUp() {
 		when(factory.create()).thenReturn(cache);
 
-		info = new GemfireServiceInfo("gemfire", Collections.singletonList("localhost[1234]"));
+		info = new GemfireServiceInfo.Builder("gemfire", Collections.singletonList("localhost[1234]")).build();
 		creator = new GemfireClientCacheCreator(factory);
 	}
 

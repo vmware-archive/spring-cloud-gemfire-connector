@@ -3,12 +3,12 @@ package io.pivotal.spring.cloud.cloudfoundry;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.pivotal.spring.cloud.service.common.GemfireServiceInfo;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.cloud.cloudfoundry.AbstractCloudFoundryConnectorTest;
-import io.pivotal.spring.cloud.service.common.GemfireServiceInfo;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnectorTest {
 
@@ -63,6 +63,15 @@ public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnector
 		Map<String, Object> serviceData = getServiceData(services, "p-gemfire");
 		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
 		Assert.assertEquals("gemfire-si.foo.bar.com", info.getRestURL());
+	}
+
+	@Test
+	public void testGemFireServiceOnDemand() throws Exception{
+		GemfireServiceInfoCreator creator = new GemfireServiceInfoCreator();
+		Map servicesJsonMap = readServiceData("test-gemfire20-service.json");
+		Map<String, Object> serviceData = getServiceData(servicesJsonMap, "p-gemfire-on-demand");
+		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
+		Assert.assertThat("locator://10.0.0.57:55221", Matchers.containsString(info.getLocators()[0].toString()));
 	}
 
 	private Map readServiceData(String resource) throws java.io.IOException {

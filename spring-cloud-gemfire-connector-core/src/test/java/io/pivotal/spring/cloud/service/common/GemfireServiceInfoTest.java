@@ -11,7 +11,7 @@ public class GemfireServiceInfoTest {
 
 	@Test
 	public void testValidLocatorIP(){
-		GemfireServiceInfo info = new GemfireServiceInfo("gemfire", Collections.singletonList("10.0.0.1[1044]"));
+		GemfireServiceInfo info = new GemfireServiceInfo.Builder("gemfire", Collections.singletonList("10.0.0.1[1044]")).build();
 		Assert.assertEquals(1, info.getLocators().length);
 		Assert.assertEquals("10.0.0.1", info.getLocators()[0].getHost());
 		Assert.assertEquals(1044, info.getLocators()[0].getPort());
@@ -19,7 +19,7 @@ public class GemfireServiceInfoTest {
 	
 	@Test
 	public void testValidLocatorHost(){
-		GemfireServiceInfo info = new GemfireServiceInfo("gemfire", Collections.singletonList("localhost[1044]"));
+		GemfireServiceInfo info = new GemfireServiceInfo.Builder("gemfire", Collections.singletonList("localhost[1044]")).build();
 		Assert.assertEquals(1, info.getLocators().length);
 		Assert.assertEquals("localhost", info.getLocators()[0].getHost());
 		Assert.assertEquals(1044, info.getLocators()[0].getPort());
@@ -31,7 +31,7 @@ public class GemfireServiceInfoTest {
 		locators.add("localhost[1044]");
 		locators.add("10.0.0.1[1044]");
 
-		GemfireServiceInfo info = new GemfireServiceInfo("gemfire", locators);
+		GemfireServiceInfo info = new GemfireServiceInfo.Builder("gemfire", locators).build();
 		Assert.assertEquals(2, info.getLocators().length);
 		Assert.assertEquals("localhost", info.getLocators()[0].getHost());
 		Assert.assertEquals(1044, info.getLocators()[0].getPort());
@@ -41,11 +41,11 @@ public class GemfireServiceInfoTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidLocators(){
-		new GemfireServiceInfo("gemfire", Collections.singletonList("10.0.0.1[1024],10.0.0.1[1234]"));
+		new GemfireServiceInfo.Builder("gemfire", Collections.singletonList("10.0.0.1[1024],10.0.0.1[1234]")).build();
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidFormat(){
-		new GemfireServiceInfo("gemfire", Collections.singletonList("10.0.0.1:1044"));
+		new GemfireServiceInfo.Builder("gemfire", Collections.singletonList("10.0.0.1:1044")).build();
 	}
 }
