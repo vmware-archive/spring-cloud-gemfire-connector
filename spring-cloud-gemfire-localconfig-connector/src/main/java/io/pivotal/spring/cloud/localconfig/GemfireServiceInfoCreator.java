@@ -1,12 +1,12 @@
 package io.pivotal.spring.cloud.localconfig;
 
-import io.pivotal.spring.cloud.service.common.GemfireServiceInfo;
-import org.springframework.cloud.localconfig.LocalConfigServiceInfoCreator;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import io.pivotal.spring.cloud.service.common.GemfireServiceInfo;
+import org.springframework.cloud.localconfig.LocalConfigServiceInfoCreator;
 
 /**
  * Created by esuez on 1/17/16.
@@ -23,7 +23,7 @@ public class GemfireServiceInfoCreator extends LocalConfigServiceInfoCreator<Gem
     String locatorString = extractLocatorFromUri(uri);
     List<String> locators = new ArrayList<String>();
     locators.add(locatorString);
-    return new GemfireServiceInfo(id, locators);
+    return new GemfireServiceInfo.Builder(id, locators).build();
   }
 
   public static String extractLocatorFromUri(String uri) {
