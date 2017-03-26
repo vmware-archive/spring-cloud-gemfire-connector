@@ -1,0 +1,39 @@
+{
+  "p-cloudcache": [
+    {
+      "credentials": {
+        "locators": [
+          "10.0.8.20[55221]",
+          "10.0.8.21[55221]",
+          "10.0.8.22[55221]"
+        ],
+        "urls": {
+          "gfsh": "http://gemfire-1f0d376e-9de8-4e8d-bbd5-4d5cdb235ccb.sys.emerald.gcp.pcf-gemfire.com/gemfire/v1",
+          "pulse": "http://gemfire-1f0d376e-9de8-4e8d-bbd5-4d5cdb235ccb.sys.emerald.gcp.pcf-gemfire.com/pulse"
+        },
+        "users": [
+          {
+            "password": "crcL7ULsVIgRP93X7Wdg",
+            "username": "developer"
+          },
+          {
+            "password": "3q1XFDobsp8S2wJZ8ajTQ",
+            "username": "operator"
+          }
+        ]
+      },
+      "label": "p-cloudcache",
+      "name": "service0",
+      "plan": "extra-small",
+      "provider": null,
+      "syslog_drain_url": null,
+      "tags": [
+        "gemfire",
+        "cloudcache",
+        "database",
+        "pivotal"
+      ],
+      "volume_mounts": []
+    }
+  ]
+}

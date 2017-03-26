@@ -74,6 +74,15 @@ public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnector
 		Assert.assertThat("locator://10.0.0.57:55221", Matchers.containsString(info.getLocators()[0].toString()));
 	}
 
+	@Test
+	public void testLocatorsCloudCache() throws Exception {
+		GemfireServiceInfoCreator creator = new GemfireServiceInfoCreator();
+		Map servicesJsonMap = readServiceData("test-cloudcache-service.json");
+		Map<String, Object> serviceData = getServiceData(servicesJsonMap, "p-cloudcache");
+		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
+		Assert.assertThat("locator://10.0.8.20:55221", Matchers.containsString(info.getLocators()[0].toString()));
+	}
+
 	private Map readServiceData(String resource) throws java.io.IOException {
 		return mapper.readValue(readTestDataFile(resource), Map.class);
 	}
