@@ -12,6 +12,14 @@ install {
 	}
 }
 
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			repository(url: "file://"+System.getProperty("user.home")+"/.m2/repository")
+		}
+	}
+}
+
 def customizePom(pom, gradleProject) {
 	pom.whenConfigured { generatedPom ->
 		// respect "optional" and "provided" dependencies

@@ -23,8 +23,8 @@ public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnector
 		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
 		Assert.assertNotNull(info);
 		Assert.assertNotNull(info.getLocators());
-		Assert.assertNotNull(info.getUsername());
-		Assert.assertNotNull(info.getPassword());
+		Assert.assertNotNull(info.getDevUsername());
+		Assert.assertNotNull(info.getDevPassword());
 		Assert.assertNull(info.getRestURL());
 	}
 
@@ -71,7 +71,7 @@ public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnector
 		Map servicesJsonMap = readServiceData("test-gemfire20-service.json");
 		Map<String, Object> serviceData = getServiceData(servicesJsonMap, "p-gemfire-on-demand");
 		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
-		Assert.assertThat("locator://10.0.0.57:55221", Matchers.containsString(info.getLocators()[0].toString()));
+		Assert.assertThat("locator://10.0.8.20:55221", Matchers.containsString(info.getLocators()[0].toString()));
 	}
 
 	@Test
@@ -81,6 +81,8 @@ public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnector
 		Map<String, Object> serviceData = getServiceData(servicesJsonMap, "p-cloudcache");
 		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
 		Assert.assertThat("locator://10.0.8.20:55221", Matchers.containsString(info.getLocators()[0].toString()));
+		Assert.assertThat("developer", Matchers.equalTo(info.getDevUsername()));
+		Assert.assertThat("crcL7ULsVIgRP93X7Wdg", Matchers.equalTo(info.getDevPassword()));
 	}
 
 	private Map readServiceData(String resource) throws java.io.IOException {

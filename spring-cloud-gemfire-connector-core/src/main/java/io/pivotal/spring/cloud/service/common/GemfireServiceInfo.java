@@ -21,16 +21,16 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 public class GemfireServiceInfo extends BaseServiceInfo {
 
 	private URI[] locators;
-	private final String username;
-	private final String password;
+	private final String devUsername;
+	private final String devPassword;
 	private String restURL;
 
 	public GemfireServiceInfo(Builder builder){
 		super(builder.id);
 
 		this.locators = builder.locators;
-		this.username = builder.username;
-		this.password = builder.password;
+		this.devUsername = builder.devUsername;
+		this.devPassword = builder.devPassword;
 		this.restURL = builder.restURL;
 	}
 
@@ -42,8 +42,8 @@ public class GemfireServiceInfo extends BaseServiceInfo {
 
 		//optional
 		private String restURL;
-		private String username;
-		private String password;
+		private String devUsername;
+		private String devPassword;
 
 		public Builder(String id, List<String> locators){
 			ArrayList<URI> uris = new ArrayList<URI>(locators.size());
@@ -60,8 +60,8 @@ public class GemfireServiceInfo extends BaseServiceInfo {
 		}
 
 		public Builder usernamePassword(String username, String password){
-			this.username = username;
-			this.password = password;
+			this.devUsername = username;
+			this.devPassword = password;
 			return this;
 		}
 
@@ -92,12 +92,12 @@ public class GemfireServiceInfo extends BaseServiceInfo {
 		return locators;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getDevUsername() {
+		return devUsername;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getDevPassword() {
+		return devPassword;
 	}
 
 	public String getRestURL() {

@@ -23,15 +23,21 @@ public class GemfireServiceInfoCreator extends CloudFoundryServiceInfoCreator<Ge
 	@SuppressWarnings("unchecked")
 	public GemfireServiceInfo createServiceInfo(Map<String, Object> serviceData) {
 		String id = (String) serviceData.get("name");
-
+		String devUsername = "", devPassword = "";
 		Map<String, Object> credentials = getCredentials(serviceData);
-
-		String username = getStringFromCredentials(credentials, "username");
-		String password = getStringFromCredentials(credentials, "password");
+		List<Map<String, String>> users = (List<Map<String,String>>) credentials.get("users");
+		for (Map<String, String> user: users) {
+			if (user.get("username").equalsIgnoreCase("developer")){
+				devUsername = user.get("username");
+				devPassword = user.get("password");
+			}
+		}
+//		String username = users.get(1).get("username");
+//		String password = getStringFromCredentials(credentials, "password");
 		List<String> locators = (List<String>) credentials.get("locators");
 		String restURL = getStringFromCredentials(credentials, "rest_url");
 
-		return new GemfireServiceInfo.Builder(id, locators).usernamePassword(username, password).restUrl(restURL).build();
+		return new GemfireServiceInfo.Builder(id, locators).usernamePassword(devUsername, devPassword).restUrl(restURL).build();
 	}
 
 	@Override
