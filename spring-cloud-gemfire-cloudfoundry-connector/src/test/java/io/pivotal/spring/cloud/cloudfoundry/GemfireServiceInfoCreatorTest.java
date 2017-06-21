@@ -1,14 +1,14 @@
 package io.pivotal.spring.cloud.cloudfoundry;
 
-import java.util.List;
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.pivotal.spring.cloud.service.common.GemfireServiceInfo;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.cloud.cloudfoundry.AbstractCloudFoundryConnectorTest;
+
+import java.util.List;
+import java.util.Map;
 
 public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnectorTest {
 
@@ -66,23 +66,16 @@ public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnector
 	}
 
 	@Test
-	public void testGemFireServiceOnDemand() throws Exception{
+	public void testCloudCache() throws Exception{
 		GemfireServiceInfoCreator creator = new GemfireServiceInfoCreator();
-		Map servicesJsonMap = readServiceData("test-gemfire20-service.json");
-		Map<String, Object> serviceData = getServiceData(servicesJsonMap, "p-gemfire-on-demand");
-		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
-		Assert.assertThat("locator://10.0.8.20:55221", Matchers.containsString(info.getLocators()[0].toString()));
-	}
-
-	@Test
-	public void testLocatorsCloudCache() throws Exception {
-		GemfireServiceInfoCreator creator = new GemfireServiceInfoCreator();
-		Map servicesJsonMap = readServiceData("test-cloudcache-service.json");
+		Map servicesJsonMap = readServiceData("cloudcache-service.json");
 		Map<String, Object> serviceData = getServiceData(servicesJsonMap, "p-cloudcache");
 		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
-		Assert.assertThat("locator://10.0.8.20:55221", Matchers.containsString(info.getLocators()[0].toString()));
+		Assert.assertThat("locator://10.244.0.4:55221", Matchers.containsString(info.getLocators()[0].toString()));
+		Assert.assertThat("locator://10.244.0.4:55221", Matchers.containsString(info.getLocators()[0].toString()));
+		Assert.assertThat("locator://10.244.0.4:55221", Matchers.containsString(info.getLocators()[0].toString()));
 		Assert.assertThat("developer", Matchers.equalTo(info.getDevUsername()));
-		Assert.assertThat("crcL7ULsVIgRP93X7Wdg", Matchers.equalTo(info.getDevPassword()));
+		Assert.assertThat("some_developer_password", Matchers.equalTo(info.getDevPassword()));
 	}
 
 	private Map readServiceData(String resource) throws java.io.IOException {
