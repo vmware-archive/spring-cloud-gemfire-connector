@@ -72,8 +72,8 @@ public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnector
 		Map<String, Object> serviceData = getServiceData(servicesJsonMap, "p-cloudcache");
 		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
 		Assert.assertThat("locator://10.244.0.4:55221", Matchers.containsString(info.getLocators()[0].toString()));
-		Assert.assertThat("locator://10.244.0.4:55221", Matchers.containsString(info.getLocators()[0].toString()));
-		Assert.assertThat("locator://10.244.0.4:55221", Matchers.containsString(info.getLocators()[0].toString()));
+		Assert.assertThat("locator://10.244.1.2:55221", Matchers.containsString(info.getLocators()[1].toString()));
+		Assert.assertThat("locator://10.244.0.130:55221", Matchers.containsString(info.getLocators()[2].toString()));
 		Assert.assertThat("developer", Matchers.equalTo(info.getDevUsername()));
 		Assert.assertThat("some_developer_password", Matchers.equalTo(info.getDevPassword()));
 	}
