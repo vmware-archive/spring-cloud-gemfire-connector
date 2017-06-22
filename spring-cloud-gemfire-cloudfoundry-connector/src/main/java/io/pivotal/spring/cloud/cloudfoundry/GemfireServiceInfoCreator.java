@@ -32,8 +32,6 @@ public class GemfireServiceInfoCreator extends CloudFoundryServiceInfoCreator<Ge
 				devPassword = user.get("password");
 			}
 		}
-//		String username = users.get(1).get("username");
-//		String password = getStringFromCredentials(credentials, "password");
 		List<String> locators = (List<String>) credentials.get("locators");
 		String restURL = getStringFromCredentials(credentials, "rest_url");
 
