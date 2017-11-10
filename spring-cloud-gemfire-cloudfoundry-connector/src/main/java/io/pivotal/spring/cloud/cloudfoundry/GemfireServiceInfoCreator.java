@@ -23,19 +23,19 @@ public class GemfireServiceInfoCreator extends CloudFoundryServiceInfoCreator<Ge
 	@SuppressWarnings("unchecked")
 	public GemfireServiceInfo createServiceInfo(Map<String, Object> serviceData) {
 		String id = (String) serviceData.get("name");
-		String devUsername = "", devPassword = "";
+		String username = "",password = "";
 		Map<String, Object> credentials = getCredentials(serviceData);
-		List<Map<String, String>> users = (List<Map<String,String>>) credentials.get("users");
-		for (Map<String, String> user: users) {
-			if (user.get("username").equalsIgnoreCase("developer")){
-				devUsername = user.get("username");
-				devPassword = user.get("password");
+		List<Map<String, Object>> users = (List<Map<String,Object>>) credentials.get("users");
+		for (Map<String, Object> user: users) {
+			if (isClusterOperator(user)){
+				username = (String) user.get("username");
+				password = (String) user.get("password");
 			}
 		}
 		List<String> locators = (List<String>) credentials.get("locators");
 		String restURL = getStringFromCredentials(credentials, "rest_url");
 
-		return new GemfireServiceInfo.Builder(id, locators).usernamePassword(devUsername, devPassword).restUrl(restURL).build();
+		return new GemfireServiceInfo.Builder(id, locators).usernamePassword(username, password).restUrl(restURL).build();
 	}
 
 	@Override
@@ -46,6 +46,11 @@ public class GemfireServiceInfoCreator extends CloudFoundryServiceInfoCreator<Ge
 	protected boolean containsLocators(Map<String,Object> serviceData){
 		Object locators = getCredentials(serviceData).get("locators");
 		return locators != null;
+	}
+
+	private boolean isClusterOperator(Map<String, Object> user) {
+		return user.get("roles") != null && ((List<String>)user.get("roles")).contains("cluster_operator")
+				|| user.get("username").equals("cluster_operator");
 	}
 
 }

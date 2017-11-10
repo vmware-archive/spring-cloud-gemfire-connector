@@ -21,13 +21,11 @@
         "users": [
           {
             "password": "crcL7ULsVIgRP93X7Wdg",
-            "username": "some-developer",
-            "roles": ["developer"]
+            "username": "developer"
           },
           {
             "password": "3q1XFDobsp8S2wJZ8ajTQ",
-            "username": "some-cluster-operator",
-            "roles": ["cluster_operator"]
+            "username": "cluster_operator"
           }
         ]
       }

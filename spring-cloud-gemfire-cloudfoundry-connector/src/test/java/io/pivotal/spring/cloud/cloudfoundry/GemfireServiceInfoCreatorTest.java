@@ -23,8 +23,22 @@ public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnector
 		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
 		Assert.assertNotNull(info);
 		Assert.assertNotNull(info.getLocators());
-		Assert.assertNotNull(info.getDevUsername());
-		Assert.assertNotNull(info.getDevPassword());
+		Assert.assertEquals("some-cluster-operator", info.getUsername());
+		Assert.assertEquals("3q1XFDobsp8S2wJZ8ajTQ", info.getPassword());
+		Assert.assertNull(info.getRestURL());
+	}
+
+	@Test
+	public void itUsesUsernamesAsRoles_whenServiceInfoHasNoRoles() throws Exception {
+		GemfireServiceInfoCreator creator = new GemfireServiceInfoCreator();
+		Map services = readServiceData("test-gemfire-service-no-roles.json");
+		Map<String, Object> serviceData = getServiceData(services, "p-gemfire");
+
+		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
+		Assert.assertNotNull(info);
+		Assert.assertNotNull(info.getLocators());
+		Assert.assertEquals("cluster_operator", info.getUsername());
+		Assert.assertEquals("3q1XFDobsp8S2wJZ8ajTQ", info.getPassword());
 		Assert.assertNull(info.getRestURL());
 	}
 
@@ -71,11 +85,11 @@ public class GemfireServiceInfoCreatorTest extends AbstractCloudFoundryConnector
 		Map servicesJsonMap = readServiceData("cloudcache-service.json");
 		Map<String, Object> serviceData = getServiceData(servicesJsonMap, "p-cloudcache");
 		GemfireServiceInfo info = creator.createServiceInfo(serviceData);
-		Assert.assertThat("locator://10.244.0.4:55221", Matchers.containsString(info.getLocators()[0].toString()));
-		Assert.assertThat("locator://10.244.1.2:55221", Matchers.containsString(info.getLocators()[1].toString()));
-		Assert.assertThat("locator://10.244.0.130:55221", Matchers.containsString(info.getLocators()[2].toString()));
-		Assert.assertThat("developer", Matchers.equalTo(info.getDevUsername()));
-		Assert.assertThat("some_developer_password", Matchers.equalTo(info.getDevPassword()));
+		Assert.assertThat(info.getLocators()[0].toString(), Matchers.containsString("locator://10.244.0.4:55221"));
+		Assert.assertThat(info.getLocators()[1].toString(), Matchers.containsString("locator://10.244.1.2:55221"));
+		Assert.assertThat(info.getLocators()[2].toString(), Matchers.containsString("locator://10.244.0.130:55221"));
+		Assert.assertThat(info.getUsername(), Matchers.equalTo("cluster_operator"));
+		Assert.assertThat(info.getPassword(), Matchers.equalTo("some_password"));
 	}
 
 	private Map readServiceData(String resource) throws java.io.IOException {

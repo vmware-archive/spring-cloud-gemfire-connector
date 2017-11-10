@@ -30,12 +30,12 @@ public class GemfireClientCacheCreator  extends AbstractServiceConnectorCreator<
 		for (URI locator : serviceInfo.getLocators()) {
 			factory.addPoolLocator(locator.getHost(), locator.getPort());
 		}
-		if (serviceInfo.getDevUsername() != null) {
+		if (serviceInfo.getUsername() != null) {
 			factory.set("security-client-auth-init", "io.pivotal.spring.cloud.service.gemfire.UserAuthInitialize.create");
-			factory.set("security-username", serviceInfo.getDevUsername());
+			factory.set("security-username", serviceInfo.getUsername());
 		}
-		if (serviceInfo.getDevPassword() != null) {
-			factory.set("security-password", serviceInfo.getDevPassword());
+		if (serviceInfo.getPassword() != null) {
+			factory.set("security-password", serviceInfo.getPassword());
 		}
 		if (serviceConnectorConfig != null && serviceConnectorConfig.getClass().isAssignableFrom(GemfireServiceConnectorConfig.class)) {
 			apply((GemfireServiceConnectorConfig) serviceConnectorConfig);
