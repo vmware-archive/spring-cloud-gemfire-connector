@@ -11,8 +11,8 @@ import io.pivotal.spring.cloud.service.common.GemfireServiceInfo;
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 
-import com.gemstone.gemfire.cache.client.ClientCache;
-import com.gemstone.gemfire.cache.client.ClientCacheFactory;
+import org.apache.geode.cache.client.ClientCache;
+import org.apache.geode.cache.client.ClientCacheFactory;
 
 public class GemfireClientCacheCreator  extends AbstractServiceConnectorCreator<ClientCache, GemfireServiceInfo>{
 

@@ -1,6 +1,6 @@
 package io.pivotal.spring.cloud.config.java;
 
-import com.gemstone.gemfire.cache.client.ClientCache;
+import org.apache.geode.cache.client.ClientCache;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.annotation.Bean;
 

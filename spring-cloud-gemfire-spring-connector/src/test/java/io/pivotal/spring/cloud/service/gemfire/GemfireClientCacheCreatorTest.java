@@ -5,16 +5,16 @@ import static org.mockito.Mockito.*;
 
 import java.util.Collections;
 
+import org.apache.geode.cache.client.ClientCache;
+import org.apache.geode.cache.client.ClientCacheFactory;
+import org.apache.geode.pdx.PdxSerializer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import io.pivotal.spring.cloud.service.common.GemfireServiceInfo;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import com.gemstone.gemfire.cache.client.ClientCache;
-import com.gemstone.gemfire.cache.client.ClientCacheFactory;
-import com.gemstone.gemfire.pdx.PdxSerializer;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GemfireClientCacheCreatorTest {

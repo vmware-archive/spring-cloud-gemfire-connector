@@ -28,8 +28,8 @@ buildscript {
 	}
 
 	ext {
-		springBootVersion = "1.2.3.RELEASE"
-		springDataGemfireVersion = "1.6.1.RELEASE"
+		springBootVersion = "2.0.6.RELEASE"
+		springDataGemfireVersion = "2.0.11.RELEASE"
 		springCloudConnectorsVersion = "1.2.0.RELEASE"
 		jacksonVersion = "2.3.3"
 		junitVersion = "4.11"
@@ -48,8 +48,8 @@ subprojects {
 	apply plugin: 'propdeps-eclipse'
 
 	compileJava {
-		sourceCompatibility=1.6
-		targetCompatibility=1.6
+		sourceCompatibility=1.8
+		targetCompatibility=1.8
 	}
 	compileTestJava {
 		sourceCompatibility=1.8
@@ -175,7 +175,9 @@ project(':spring-cloud-gemfire-spring-connector') {
 		compile("org.springframework.cloud:spring-cloud-spring-service-connector:$springCloudConnectorsVersion")
 		optional("org.springframework.data:spring-data-gemfire:$springDataGemfireVersion")
 		testCompile("org.springframework.boot:spring-boot:$springBootVersion")
-		testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+		testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion"){
+            exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+        }
 		testCompile("org.springframework.cloud:spring-cloud-core:$springCloudConnectorsVersion:tests")
 		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion")
 		testCompile("org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorsVersion:tests")
