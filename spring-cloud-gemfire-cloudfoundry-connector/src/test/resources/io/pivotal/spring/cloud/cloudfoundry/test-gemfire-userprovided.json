@@ -8,8 +8,8 @@
           "10.0.8.22[55221]"
         ],
         "urls": {
-          "gfsh": "http://gemfire-1f0d376e-9de8-4e8d-bbd5-4d5cdb235ccb.sys.emerald.gcp.pcf-gemfire.com/gemfire/v1",
-          "pulse": "http://gemfire-1f0d376e-9de8-4e8d-bbd5-4d5cdb235ccb.sys.emerald.gcp.pcf-gemfire.com/pulse"
+          "gfsh": "https://gemfire-1f0d376e-9de8-4e8d-bbd5-4d5cdb235ccb.sys.emerald.gcp.pcf-gemfire.com/gemfire/v1",
+          "pulse": "https://gemfire-1f0d376e-9de8-4e8d-bbd5-4d5cdb235ccb.sys.emerald.gcp.pcf-gemfire.com/pulse"
         },
         "users": [
           {
