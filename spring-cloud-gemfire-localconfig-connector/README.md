@@ -9,7 +9,7 @@ Basically parses a url following this pattern:
     <host>[port]
 
 The spring cloud localconfig connector documentation quick start, at:
-http://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html#_local_configuration_connector
+https://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html#_local_configuration_connector
 
 ..shows an example of configuring a local mysql backing service using a spring-cloud properties file:
 
